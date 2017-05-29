@@ -12,6 +12,7 @@ Simple CLI for nhaccuatui.com.
 * [x] Get top song by countries
 * Download song
 * and more functionalities
+* Improve the UI ouput in terminal
 
 ## Installation
 
