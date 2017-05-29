@@ -5,21 +5,42 @@ defmodule NhaccuatuiCli do
   @search_url "http://www.nhaccuatui.com/ajax/search?"
 
   def main(args) do
+    options = parse_args(args)
     case Enum.at(args, 0) do
       "top-vn" -> get_top(@topnhacviet, "Top 10 nhạc Việt")
       "top-us" -> get_top(@topnhacus, "Top 10 nhạc Âu Mỹ")
       "top-kr" -> get_top(@topnhachan, "Top 10 nhạc Hàn")
       "search" -> search(Enum.at(args, 1))
       "play" -> play(Enum.at(args, 1))
+      "download" -> download(Enum.at(args, 1), options)
       _ -> IO.puts "No command provided."
     end
   end
 
-  def play(uri) do
+  def download(url, options) do
+    IO.puts "Downloading #{url}"
+    Application.ensure_all_started(:inets)
+    output_path = Path.expand(Keyword.get(options, :out, "."))
+    {download_url, _} = System.cmd("ruby", [Path.absname("./lib/ruby/scraper.rb"), url])
+
+    file_name = Enum.at(download_url |> String.split("?"), 0) |> String.split("/") |> Enum.reverse |> Enum.take(1) |> Enum.at(0)
+
+    {:ok, %HTTPoison.Response{body: body, headers: headers, status_code: status_code}} = HTTPoison.get(download_url, [], [follow_redirect: true])
+    IO.puts status_code
+    if status_code == 302 do
+      new_download_url = elem(Enum.at(headers, 0), 1)
+      %HTTPoison.Response{body: new_body} = HTTPoison.get!(new_download_url)
+      File.write!("#{output_path}/#{file_name}", new_body)
+    else
+      File.write!("#{output_path}/#{file_name}", body)
+    end
+  end
+
+  defp play(uri) do
     System.cmd("open", [uri])
   end
 
-  def search(query) do
+  defp search(query) do
     uri = URI.encode("#{@search_url}q=#{query}")
     case HTTPoison.get(uri) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -63,5 +84,12 @@ defmodule NhaccuatuiCli do
 
   defp print_entity(entity) do
     [entity["name"], entity["url"]]
+  end
+
+  defp parse_args(args) do
+    {options, _, _} = OptionParser.parse(args,
+      switches: [out: :string]
+    )
+    options
   end
 end

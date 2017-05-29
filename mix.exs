@@ -12,7 +12,7 @@ defmodule NhaccuatuiCli.Mixfile do
   end
 
   def application do
-    [applications: [:httpoison, :logger, :table_rex]]
+    [extra_applications: [:hackney, :httpoison, :logger, :table_rex]]
   end
 
   defp deps do

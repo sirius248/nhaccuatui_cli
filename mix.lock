@@ -1,4 +1,6 @@
 %{"certifi": {:hex, :certifi, "1.2.1", "c3904f192bd5284e5b13f20db3ceac9626e14eeacfbb492e19583cf0e37b22be", [:rebar3], []},
+  "erlport": {:git, "https://github.com/hdima/erlport.git", "246b7722d62b87b48be66d9a871509a537728962", []},
+  "export": {:hex, :export, "0.0.7", "f930e51fd09855ab5cfa3295acee86ab119f6cc386bba2a455bd6a45570d699f", [:mix], []},
   "floki": {:hex, :floki, "0.17.2", "81b3a39d85f5cae39c8da16236ce152f7f8f50faf84b480ba53351d7e96ca6ca", [:mix], [{:mochiweb, "~> 2.15", [hex: :mochiweb, optional: false]}]},
   "hackney": {:hex, :hackney, "1.8.4", "f4d66065366cbfb51c4e231f6c75c39a14d62457a259d3819c41306bb5533b29", [:rebar3], [{:certifi, "1.2.1", [hex: :certifi, optional: false]}, {:idna, "5.0.2", [hex: :idna, optional: false]}, {:metrics, "1.0.1", [hex: :metrics, optional: false]}, {:mimerl, "1.0.2", [hex: :mimerl, optional: false]}, {:ssl_verify_fun, "1.1.1", [hex: :ssl_verify_fun, optional: false]}]},
   "httpoison": {:hex, :httpoison, "0.11.2", "9e59f17a473ef6948f63c51db07320477bad8ba88cf1df60a3eee01150306665", [:mix], [{:hackney, "~> 1.8.0", [hex: :hackney, optional: false]}]},
