@@ -22,17 +22,18 @@ defmodule NhaccuatuiCli do
     Application.ensure_all_started(:inets)
     output_path = Path.expand(Keyword.get(options, :out, "."))
     {download_url, _} = System.cmd("ruby", [Path.absname("./lib/ruby/scraper.rb"), url])
-
+    download_url = download_url |> String.trim
     file_name = Enum.at(download_url |> String.split("?"), 0) |> String.split("/") |> Enum.reverse |> Enum.take(1) |> Enum.at(0)
 
-    {:ok, %HTTPoison.Response{body: body, headers: headers, status_code: status_code}} = HTTPoison.get(download_url, [], [follow_redirect: true])
-    IO.puts status_code
-    if status_code == 302 do
-      new_download_url = elem(Enum.at(headers, 0), 1)
-      %HTTPoison.Response{body: new_body} = HTTPoison.get!(new_download_url)
-      File.write!("#{output_path}/#{file_name}", new_body)
-    else
-      File.write!("#{output_path}/#{file_name}", body)
+    case HTTPoison.get!(download_url) do
+      %HTTPoison.Response{headers: headers, status_code: 302} ->
+        new_download_url = elem(Enum.at(headers, 0), 1)
+        %HTTPoison.Response{body: new_body} = HTTPoison.get!(new_download_url)
+        File.write!("#{output_path}/#{file_name}", new_body)
+      {:ok, %HTTPoison.Response{body: body, status_code: 200}} ->
+        File.write!("#{output_path}/#{file_name}", body)
+      _ ->
+        IO.puts "Download error."
     end
   end
 
