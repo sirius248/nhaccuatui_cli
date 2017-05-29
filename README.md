@@ -6,6 +6,8 @@ Simple CLI for nhaccuatui.com.
 
 ![s2](https://cloud.githubusercontent.com/assets/2282642/26551910/02d0251c-44af-11e7-83a0-6b6841b1de51.png)
 
+![s3](https://cloud.githubusercontent.com/assets/2282642/26557030/ad6ded60-44c8-11e7-81a5-7926b59b77f4.png)
+
 ## Usage
 
 ```elixir
