@@ -15,14 +15,22 @@ nct top-us # => top 10 US-UK songs
 nct top-kr # => top 10 Korea songs
 nct play url # => play the song with the url
 
+# => will download the song to local storage
+# if out option is missed then the path will be current working directory
+nct download url --out=path
+
 # more to be update
 ```
+
+## Requirement
+
+The program require your machine need to have Ruby programming language and this gem `selenium-webdriver` in order to the download functionality to work.
 
 ## TODO
 
 * [x] Simple search
 * [x] Get top song by countries
-* Download song
+* [x] Download song
 * and more functionalities
 * [x] Improve the UI output in terminal
 * Add test
