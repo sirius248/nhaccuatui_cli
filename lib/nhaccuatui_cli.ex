@@ -30,8 +30,10 @@ defmodule NhaccuatuiCli do
         new_download_url = elem(Enum.at(headers, 0), 1)
         %HTTPoison.Response{body: new_body} = HTTPoison.get!(new_download_url)
         File.write!("#{output_path}/#{file_name}", new_body)
+        IO.puts "Finished."
       {:ok, %HTTPoison.Response{body: body, status_code: 200}} ->
         File.write!("#{output_path}/#{file_name}", body)
+        IO.puts "Finished."
       _ ->
         IO.puts "Download error."
     end
