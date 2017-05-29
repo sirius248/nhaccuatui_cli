@@ -37,12 +37,12 @@ defmodule NhaccuatuiCli do
         html = temp["data"]["html"]
         tops = Floki.find(html, "a.name_song")
 
-        IO.puts "### #{title} ###"
-        tops |> Enum.each(fn (song) ->
-          title = elem(Enum.at(elem(song, 1), 0), 1)
-          url = elem(Enum.at(elem(song, 1), 1), 1)
-          IO.puts "#{title} *** #{url}"
-        end)
+        header = ["Name", "Url"]
+        rows = tops |> Enum.map(fn (song) ->
+                        [elem(Enum.at(elem(song, 1), 0), 1),
+                          elem(Enum.at(elem(song, 1), 1), 1)]
+                        end)
+        TableRex.quick_render!(rows, header, title) |> IO.puts
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
     end
@@ -56,15 +56,15 @@ defmodule NhaccuatuiCli do
   end
 
   defp print_entities(entities, type) do
-    IO.puts "*** Search result by #{type} ***"
-    Enum.each(entities, fn (song) -> print_entity(song) end)
-    IO.puts "*************************"
-    IO.puts "\n"
+    header = ["Name", "Url"]
+    title = "Search result by #{type}"
+    rows = Enum.map(entities, fn (song) -> print_entity(song) end)
+    if Enum.any?(rows) do
+      TableRex.quick_render!(rows, header, title) |> IO.puts
+    end
   end
 
   defp print_entity(entity) do
-    name = entity["name"]
-    url = entity["url"]
-    IO.puts "#{name} - #{url}"
+    [entity["name"], entity["url"]]
   end
 end

@@ -12,12 +12,13 @@ defmodule NhaccuatuiCli.Mixfile do
   end
 
   def application do
-    [applications: [:httpoison]]
+    [applications: [:httpoison, :logger, :table_rex]]
   end
 
   defp deps do
     [{:httpoison, "~> 0.11.1"},
       {:poison, "~> 3.0"},
-      {:floki, "~> 0.17.0"}]
+      {:floki, "~> 0.17.0"},
+      {:table_rex, "~> 0.10"}]
   end
 end
