@@ -1,19 +1,26 @@
-# NhaccuatuiCli
+# Nhaccuatui CLI
 
-**TODO: Add description**
+Simple CLI for nhaccuatui.com.
+
+![s1](https://cloud.githubusercontent.com/assets/2282642/26544985/3035190c-448e-11e7-8874-d1fe5c490eac.png)
+
+![s2](https://cloud.githubusercontent.com/assets/2282642/26545014/4d818f18-448e-11e7-9efc-c490e893b7de.png)
+
+## TODO
+
+* [x] Simple search
+* [x] Get top song by countries
+* Download song
+* and more functionalities
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `nhaccuatui_cli` to your list of dependencies in `mix.exs`:
+Download this file https://github.com/kimquy/nhaccuatui_cli/blob/master/nhaccuatui_cli
 
-```elixir
-def deps do
-  [{:nhaccuatui_cli, "~> 0.1.0"}]
-end
+And put it into the home folder.
+
+```bash
+cd ~
+curl -O https://github.com/kimquy/nhaccuatui_cli/blob/master/nhaccuatui_cli
+./nhaccuatui_cli --action=search --query=lactroi
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/nhaccuatui_cli](https://hexdocs.pm/nhaccuatui_cli).
-
