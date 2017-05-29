@@ -5,19 +5,23 @@ defmodule NhaccuatuiCli do
   @search_url "http://www.nhaccuatui.com/ajax/search?"
 
   def main(args) do
-    options = parse_args(args)
-    case Keyword.get(options, :action) do
+    case Enum.at(args, 0) do
       "top-vn" -> get_top(@topnhacviet, "Top 10 nhạc Việt")
       "top-us" -> get_top(@topnhacus, "Top 10 nhạc Âu Mỹ")
       "top-kr" -> get_top(@topnhachan, "Top 10 nhạc Hàn")
-      "search" -> search(Keyword.get(options, :query))
-      _ -> get_top(@topnhacviet, "Top 10 nhạc Việt")
+      "search" -> search(Enum.at(args, 1))
+      "play" -> play(Enum.at(args, 1))
+      _ -> IO.puts "No command provided."
     end
   end
 
+  def play(uri) do
+    System.cmd("open", [uri])
+  end
+
   def search(query) do
-    url = "#{@search_url}q=#{query}"
-    case HTTPoison.get(url) do
+    uri = URI.encode("#{@search_url}q=#{query}")
+    case HTTPoison.get(uri) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         temp = body |> Poison.Parser.parse!
 
@@ -46,13 +50,6 @@ defmodule NhaccuatuiCli do
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
     end
-  end
-
-  defp parse_args(args) do
-    {options, _, _} = OptionParser.parse(args,
-      switches: [action: :string]
-    )
-    options
   end
 
   defp print_entities(entities, type) do
